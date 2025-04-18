@@ -3,7 +3,7 @@ This repo contains the lessons i've completed as part of the Node Js - Complete 
 The aim of completing this course for me was to strengthen my NodeJS and backend abilities.
 
 
-* Lesson 1
-* Lesson 2
-* Lesson 3
-* Lesson 4
+* Lesson 1 - Intro to Node Js
+* Lesson 2 - Routing With Node
+* Lesson 3 - Using Express Js
+* Lesson 6 - Templating Engines (pug and EJS)
