@@ -3,6 +3,8 @@ const path=require('path');
 const bodyParser = require('body-parser');
 
 const app= express();
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
 const adminData=require('./routes/admin');
 const shopRoutes=require('./routes/shop');
@@ -17,7 +19,7 @@ app.use(adminData.routes); //will consider our admin routes when finding request
 app.use(shopRoutes);
 
 app.use((req,res,next)=>{
-    res.status(404).sendFile(path.join(__dirname, 'views','not-found.html'));
+    res.status(404).render('not-found', {pageTitle:"Not Found"});
 });
 
 app.listen(3000); 

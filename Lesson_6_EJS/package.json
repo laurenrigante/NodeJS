@@ -14,6 +14,7 @@
     "nodemon": "^3.1.9"
   },
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
     "lesson_6_ejs": "file:"
   }
