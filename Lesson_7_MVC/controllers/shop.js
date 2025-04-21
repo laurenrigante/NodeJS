@@ -11,11 +11,11 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  const products = Product.fetchAll((products) => {
+  Product.fetchAll((products) => {
     res.render("shop/index", {
       prods: products,
-      path: "/",
       pageTitle: "Shop",
+      path: "/",
     });
   });
 };
