@@ -10,6 +10,15 @@ exports.getProducts = (req, res, next) => {
   });
 };
 
+exports.getProduct=(req,res,next)=>{
+  const prodId= req.params.productId; //get the dynamic product id
+  Product.findById(prodId, product=>{ //call the method in our model to get the product given an id
+    console.log(product);
+  });
+  res.redirect('/');
+}
+
+
 exports.getIndex = (req, res, next) => {
   Product.fetchAll(products => {
     res.render('shop/index', {
