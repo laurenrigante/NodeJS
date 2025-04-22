@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const Cart= require('./cart');
 
 const p = path.join(
   path.dirname(process.mainModule.filename),
@@ -48,6 +49,21 @@ module.exports = class Product {
   });
   }
 
+  static deleteById(id){
+    getProductsFromFile((products) => {
+      //keep only items that do not match the deleted item id
+      const product=products.find(prod=> prod.id ===id); //find the product
+
+      const updatedProductsArray = products.filter((p) => p.id !== id); //if this returns true, the element is kept
+      fs.writeFile(p,JSON.stringify(updatedProductsArray), err=>{
+        if(!err){
+          //remove from cart
+            Cart.deleteProduct(id, product.price);
+        }
+      })
+    });
+
+  }
   static fetchAll(cb) {
     getProductsFromFile(cb);
   }
