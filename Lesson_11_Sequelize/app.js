@@ -51,19 +51,21 @@ Product.belongsToMany(Cart, { through: CartItem }); //product can belong to many
 
 
 sequelize
-  .sync()
+  .sync({force:true})
   .then((result) => {
     //creating temp user since we dont have login or authentication
     return User.findByPk(1);
   })
   .then((user) => {
     if (!user) {
-      User.create({ name: "max", email: "max@gmail.com" });
+        return  User.create({ name: "max", email: "max@gmail.com" });
     }
     return user;
   })
   .then((user) => {
-    console.log(user);
+    return user.createCart(); //create a cart for the user
+  }).then( cart=>{
+    console.log(cart);
     app.listen(3000);
   })
   .catch((err) => {

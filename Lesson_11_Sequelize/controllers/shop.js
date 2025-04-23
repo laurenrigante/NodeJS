@@ -3,7 +3,7 @@ const Cart = require("../models/cart");
 
 exports.getProducts = (req, res, next) => {
   Product.findAll()
-    .then(products => {
+    .then((products) => {
       res.render("shop/product-list", {
         prods: products,
         pageTitle: "All Products",
@@ -17,22 +17,25 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId; //get the dynamic product id
-  Product.findByPk(prodId).then( //findbypk method given by sequlize
-    (product)=>{
-    res.render("shop/product-detail", {
-      product: product, //pass produt to be able to get its propeerties in the view
-      pageTitle: product.title,
-      path: "/products",
+  Product.findByPk(prodId)
+    .then(
+      //findbypk method given by sequlize
+      (product) => {
+        res.render("shop/product-detail", {
+          product: product, //pass produt to be able to get its propeerties in the view
+          pageTitle: product.title,
+          path: "/products",
+        });
+      }
+    )
+    .catch((err) => {
+      console.log(err);
     });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 };
 
 exports.getIndex = (req, res, next) => {
   Product.findAll()
-    .then(products => {
+    .then((products) => {
       res.render("shop/index", {
         prods: products,
         pageTitle: "Shop",
@@ -45,24 +48,19 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  Cart.getProducts((cart) => {
-    Product.fetchAll((products) => {
-      const cartProducts = [];
-
-      for (product of products) {
-        const cartProductData = cart.products.find(
-          (prod) => prod.id === product.id
-        );
-        if (cartProductData) {
-          cartProducts.push({ productData: product, qty: cartProductData.qty });
-        }
-      }
-      res.render("shop/cart", {
-        path: "/cart",
-        pageTitle: "Your Cart",
-        products: cartProducts, //sent to view
+  req.user.getCart().then((cart) => {
+    return cart
+      .getProducts()
+      .then((products) => {
+        res.render("shop/cart", {
+          path: "/cart",
+          pageTitle: "Your Cart",
+          products: products, //sent to view
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   });
 };
 
