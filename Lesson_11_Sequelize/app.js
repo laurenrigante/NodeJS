@@ -7,6 +7,8 @@ const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
 const Product = require("./models/product");
 const User = require("./models/user");
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
 
 const app = express();
 
@@ -38,6 +40,15 @@ app.use(errorController.get404);
 
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" }); //user creating  a product
 User.hasMany(Product); //user can create many products
+
+User.hasOne(Cart); //user can have one cart
+Cart.belongsTo(User); //cart belongs to user, will add a userid key to cart
+
+Cart.belongsToMany(Product, { through: CartItem }); //cart can have many products
+Product.belongsToMany(Cart, { through: CartItem }); //product can belong to many carts
+//cart can have many products and product can belong to many carts
+//cartitem is the junction table, we set this using through key
+
 
 sequelize
   .sync()
