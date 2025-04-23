@@ -9,6 +9,8 @@ const Product = require("./models/product");
 const User = require("./models/user");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-items");
 
 const app = express();
 
@@ -41,17 +43,22 @@ app.use(errorController.get404);
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" }); //user creating  a product
 User.hasMany(Product); //user can create many products
 
-User.hasOne(Cart); //user can have one cart
+
 Cart.belongsTo(User); //cart belongs to user, will add a userid key to cart
+User.hasOne(Cart); //user can have one cart
 
 Cart.belongsToMany(Product, { through: CartItem }); //cart can have many products
 Product.belongsToMany(Cart, { through: CartItem }); //product can belong to many carts
 //cart can have many products and product can belong to many carts
 //cartitem is the junction table, we set this using through key
 
+Order.belongsTo(User); //order belongs to user
+User.hasMany(Order); //user can have many orders
+Order.belongsToMany(Product, { through: OrderItem }); //order can have many products
+Product.belongsToMany(Order, { through: OrderItem }); //product can belong to many orders
 
 sequelize
-  .sync({force:true})
+  .sync()
   .then((result) => {
     //creating temp user since we dont have login or authentication
     return User.findByPk(1);
