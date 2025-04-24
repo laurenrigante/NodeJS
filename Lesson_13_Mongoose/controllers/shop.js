@@ -90,11 +90,9 @@ exports.postCartDelete = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  req.user
-  .populate("cart.items.productId")
-  .then((user) => {
-    const products = user.cart.items.map(i=> {
-      return {quantity: i.quantity, product:{...i.productId._doc}} //get the productId and quantity of the products in the cart
+  req.user.populate("cart.items.productId").then((user) => {
+    const products = user.cart.items.map((i) => {
+      return { quantity: i.quantity, product: { ...i.productId._doc } }; //get the productId and quantity of the products in the cart
     });
 
     const order = new Order({
@@ -106,10 +104,12 @@ exports.postOrder = (req, res, next) => {
     });
   }); //populate the cart with the productId
 
-  return order.save() 
-  .then((result) => {
+  return order
+    .save()
+    .then((result) => {
+      req.user.clearCart(); //clear the cart after the order is created
+    }).then(() => {
       res.redirect("/orders");
-      console.log("Order created");
     })
     .catch((err) => {
       console.log(err);
