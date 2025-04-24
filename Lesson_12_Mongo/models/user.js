@@ -1,5 +1,5 @@
 const getDb = require("../util/database").getDb; //import the getDb function from database.js
-
+const { ObjectId } = require("mongodb");
 class User {
   constructor(username, email, id) {
     this.username = username;
@@ -18,6 +18,13 @@ class User {
     return db
       .collection("users")
       .findOne({ _id: ObjectId.createFromHexString(id) })
+      .then( user=>{
+        console.log(user);
+        return user;
+      })
+      .catch(err=> {
+        console.log(err);
+      });
   }
 }
 module.exports = User;
