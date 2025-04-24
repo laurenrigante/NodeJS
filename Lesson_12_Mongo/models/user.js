@@ -123,7 +123,7 @@ class User {
     const db = getDb();
     return db
       .collection("orders")
-      .find({'user_id': { _id: new ObjectId(this._id) } })
+      .find({'user._id':  new ObjectId(this._id) }) //find the orders of the user
       .toArray()
       .then((orders) => {
         return orders;
