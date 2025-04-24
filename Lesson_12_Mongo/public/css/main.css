@@ -15,21 +15,22 @@ main {
   margin: auto;
 }
 
-.centered {
-  text-align: center;
-}
-
 form {
   display: inline;
 }
 
-.image{
-  height:20rem;
+.centered {
+  text-align: center;
 }
 
-.image img{
-  height:100%;
+.image {
+  height: 20rem;
 }
+
+.image img {
+  height: 100%;
+}
+
 .main-header {
   width: 100%;
   height: 3.5rem;
@@ -201,6 +202,17 @@ form {
 .btn:hover,
 .btn:active {
   background-color: #00695c;
+  color: white;
+}
+
+.btn.danger {
+  color: red;
+  border-color: red;
+}
+
+.btn.danger:hover,
+.btn.danger:active {
+  background: red;
   color: white;
 }
 
