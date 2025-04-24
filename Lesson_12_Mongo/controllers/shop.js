@@ -88,45 +88,19 @@ exports.postCartDelete = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  let fetchedCart;
-  req.user
-    .getCart()
-    .then((cart) => {
-      fetchedCart = cart;
-      return cart.getProducts();
-    })
-    .then((products) => {
-      console.log(products);
-      return req.user
-        .createOrder()
-        .then((order) => {
-          order.addProducts(
-            products.map((product) => {
-              product.orderItem = { quantity: product.cartItem.quantity }; //set the quantity
-              return product; //return the product
-            })
-          );
-          return order.save(); //save the order
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .then((result) => {
-          return fetchedCart.setProducts(null); //remove all products from the cart
-        })
-        .then((result) => {
-          res.redirect("/orders");
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  req.user.addOrder()
+  .then(result=>{
+    res.redirect("/orders");
+    console.log("Order created");
+  }).catch(err=>{
+    console.log(err);
+  });
+    
 };
 
 exports.getOrders = (req, res, next) => {
   req.user
-    .getOrders({ include: ["products"] }) //eager loading.
-    //fetching all orders and related products, give me back an array of order including products
+    .getOrders()
     .then((orders) => {
       res.render("shop/orders", {
         path: "/orders",

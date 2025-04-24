@@ -92,5 +92,45 @@ class User {
         { $set: { cart: { items: updatedCartItems } } }
       );
   }
+
+  addOrder() {
+    //add order to the user
+    const db = getDb();
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: new ObjectId(this._id),
+            name: this.username,
+            email: this.email,
+          },
+        };
+        return db.collection("orders").insertOne(order);
+      })
+      .then((result) => {
+        this.cart = { items: [] };
+        return db
+          .collection("users")
+          .updateOne(
+            { _id: new ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          );
+      });
+  }
+
+  getOrders() {
+    const db = getDb();
+    return db
+      .collection("orders")
+      .find({'user_id': { _id: new ObjectId(this._id) } })
+      .toArray()
+      .then((orders) => {
+        return orders;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
 module.exports = User;
