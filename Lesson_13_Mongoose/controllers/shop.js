@@ -102,23 +102,22 @@ exports.postOrder = (req, res, next) => {
         userId: req.user,
       },
     });
-  }); //populate the cart with the productId
-
-  return order
+    return order
     .save()
     .then((result) => {
       req.user.clearCart(); //clear the cart after the order is created
-    }).then(() => {
+    })
+    .then(() => {
       res.redirect("/orders");
     })
     .catch((err) => {
       console.log(err);
     });
+  }); //populate the cart with the productId
 };
 
 exports.getOrders = (req, res, next) => {
-  req.user
-    .getOrders()
+  Order.find({ "user.userId": req.user._id }) //find the orders of the user
     .then((orders) => {
       res.render("shop/orders", {
         path: "/orders",
