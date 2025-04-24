@@ -6,7 +6,7 @@ class Product {
     this.price = price;
     this.imageUrl = imageUrl;
     this.description = description;
-    this._id = id? ObjectId.createFromHexString(id) :null;
+    this._id = id? new ObjectId(id) :null;
     this.userId = userId; //this is the id of the user who created the product
   }
 
@@ -52,7 +52,7 @@ class Product {
     const db = getDb();
     return db
       .collection("products")
-      .find({ _id: ObjectId.createFromHexString(prodId) })
+      .find({ _id: new ObjectId(prodId) })
       .next()
       .then((product) => {
         console.log(product);
@@ -67,7 +67,7 @@ class Product {
     const db = getDb();
     return db
       .collection("products")
-      .deleteOne({ _id: ObjectId.createFromHexString(prodId) })
+      .deleteOne({ _id: new ObjectId(prodId) })
       .then((result) => {
         console.log("Deleted");
         return result;

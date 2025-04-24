@@ -23,7 +23,7 @@ app.use((req, res, next) => {
    User.findById('680a5a0e71d99116b0a53c61') //id from the db
     //this id is hardcoded for now, we will get it from the session later
     .then((user) => {
-      req.user = user;
+      req.user = new User(user.username, user.email, user.cart, user._id); //create a new user object and assign it to the request
       next(); //continue with next step if we get and store user
     })
     .catch((err) => {
