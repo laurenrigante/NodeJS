@@ -123,7 +123,7 @@ exports.postOrder = (req, res, next) => {
   let fetchedCart;
   req.user
     .getCart()
-    .then()((cart) => {
+    .then((cart) => {
       fetchedCart = cart;
       return cart.getProducts();
     })
@@ -157,7 +157,8 @@ exports.postOrder = (req, res, next) => {
 
 exports.getOrders = (req, res, next) => {
   req.user
-    .getOrders()
+    .getOrders({include: ['products']}) //eager loading. 
+    //fetching all orders and related products, give me back an array of order including products
     .then((orders) => {
       res.render("shop/orders", {
         path: "/orders",
