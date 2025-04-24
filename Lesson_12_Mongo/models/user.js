@@ -1,23 +1,23 @@
- const Sequelize= require('sequelize');
- const sequelize= require('../util/database');
+const getDb = require("../util/database").getDb; //import the getDb function from database.js
 
- const User= sequelize.define( 'user',
-    {
-        id:{
-            type:Sequelize.INTEGER,
-            autoIncrement:true,
-            allowNull:false,
-            primaryKey:true
-        },
-        name:{
-            type:Sequelize.STRING,
-            allowNull:false,
-        },
-        email:{
-            type: Sequelize.STRING,
-            allowNull:false
-        }
-    }
- );
+class User {
+  constructor(username, email, id) {
+    this.username = username;
+    this.email = email;
+  }
 
-module.exports=User;
+  save() {
+    const db = getDb();
+    return db
+      .collection("users")
+      .insertOne(this) //this refers to the current instance of the class
+  }
+
+  static findById(id) {
+    const db = getDb();
+    return db
+      .collection("users")
+      .findOne({ _id: ObjectId.createFromHexString(id) })
+  }
+}
+module.exports = User;
