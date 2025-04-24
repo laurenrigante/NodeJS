@@ -1,5 +1,4 @@
-const { ObjectId } = require("mongodb");
-const getDb = require("../util/database").getDb;
+/* const { ObjectId } = require("mongodb");
 class Product {
   constructor(title, price, imageUrl,  description, id, userId) {
     this.title = title;
@@ -79,3 +78,4 @@ class Product {
 }
 
 module.exports = Product;
+ */

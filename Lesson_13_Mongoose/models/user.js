@@ -1,5 +1,4 @@
-const getDb = require("../util/database").getDb; //import the getDb function from database.js
-const { ObjectId } = require("mongodb");
+/* const { ObjectId } = require("mongodb");
 class User {
   constructor(username, email, cart, id) {
     this.username = username;
@@ -134,3 +133,4 @@ class User {
   }
 }
 module.exports = User;
+ */
