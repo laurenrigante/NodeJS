@@ -16,7 +16,7 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId; //get the dynamic product id
-  Product.findById(prodId)
+  Product.findById(prodId) //findbyid is a static method from mongoose
     .then((product) => {
       res.render("shop/product-detail", {
         product: product, //pass produt to be able to get its propeerties in the view
