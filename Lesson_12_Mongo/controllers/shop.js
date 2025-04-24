@@ -16,9 +16,8 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId; //get the dynamic product id
-  Product.findByPk(prodId)
+  Product.findById(prodId)
     .then(
-      //findbypk method given by sequlize
       (product) => {
         res.render("shop/product-detail", {
           product: product, //pass produt to be able to get its propeerties in the view
