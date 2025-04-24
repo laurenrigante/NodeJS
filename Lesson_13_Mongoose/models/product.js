@@ -17,12 +17,12 @@ const productSchema=new Schema({
     imageUrl:{
         type:String,
         required:true
-    }/* ,
+    } ,
     userId:{
         type:Schema.Types.ObjectId,
-        ref:'User',
+        ref:'User', //associations in mongoose, here we are referencing the user model we created
         required:true
-    } */
+    } 
 });
 
 module.exports=mongoose.model('Product',productSchema); //mongoose connects a schema to the model

@@ -19,6 +19,7 @@ exports.postAddProduct = (req, res, next) => {
     price: price,
     imageUrl: imageUrl,
     description: description,
+    userId: req.user, //mongoose will convert this to an object id
   });
   product
     .save() //not defined by us, but by mongoose!
