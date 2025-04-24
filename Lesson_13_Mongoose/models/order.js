@@ -28,4 +28,4 @@ const orderSchema=new Schema({
     }
 })
 
-const Order=mongoose.model('Order',orderSchema); //mongoose connects a schema to the model
+module.exports=mongoose.model('Order',orderSchema); //mongoose connects a schema to the model
