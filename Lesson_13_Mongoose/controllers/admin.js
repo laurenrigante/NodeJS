@@ -84,6 +84,8 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find()
+ /*  .select('title price') //this is a mongoose function that will select only the title and price fields
+  .populate('userId') */ //this is a mongoose function that will populate the userId field with the user object
     .then((products) => {
       res.render("admin/products", {
         prods: products,
