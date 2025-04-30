@@ -10,11 +10,21 @@ exports.getLogin = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
   //fetch user and store in session
-  User.findById("5bab316ce0a7c75f783cb8a8")
+  User.findById("680a754488006ede60035993")
     .then((user) => {
       req.session.isLoggedIn = true;
       req.session.user = user; // Store the user in the session
-      res.redirect("/");
+      req.session.save((err) => {
+        console.log(err);
+        res.redirect("/");
+      });
     })
     .catch((err) => console.log(err));
+};
+
+exports.postLogout = (req, res, next) => {
+  req.session.destroy((err) => {
+    console.log(err);
+    res.redirect("/");
+  });
 };
