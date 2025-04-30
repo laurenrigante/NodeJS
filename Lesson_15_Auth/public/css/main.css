@@ -241,3 +241,19 @@ form {
     display: none;
   }
 }
+
+.user-message{
+  margin:auto;
+  width:90%;
+  border: 2px solid #00695c;
+  background-color: rgb(238, 247, 243);
+  padding:0.25rem;
+  border-radius:3px;
+  text-align: center;
+  color:black;
+}
+
+.user-message--error{
+  border-color:red;
+  background-color: rgb(243, 228, 228);
+}
