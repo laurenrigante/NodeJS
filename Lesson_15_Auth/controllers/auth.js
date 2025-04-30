@@ -1,12 +1,22 @@
+require("dotenv").config();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key: process.env.SENDGRID_API_KEY,
+    },
+  })
+);
 
 exports.getLogin = (req, res, next) => {
-  let message= req.flash("error");
+  let message = req.flash("error");
   if (message.length > 0) {
     message = message[0];
-  }
-  else {  
+  } else {
     message = null;
   }
   res.render("auth/login", {
@@ -17,16 +27,16 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
-  let message = req.flash('error');
+  let message = req.flash("error");
   if (message.length > 0) {
     message = message[0];
   } else {
     message = null;
   }
-  res.render('auth/signup', {
-    path: '/signup',
-    pageTitle: 'Signup',
-    errorMessage: message
+  res.render("auth/signup", {
+    path: "/signup",
+    pageTitle: "Signup",
+    errorMessage: message,
   });
 };
 
@@ -76,7 +86,10 @@ exports.postSignup = (req, res, next) => {
   //check if user already exists
   User.findOne({ email: email }).then((userDoc) => {
     if (userDoc) {
-      req.flash("error", "User already exists with this email, please select a different one.");
+      req.flash(
+        "error",
+        "User already exists with this email, please select a different one."
+      );
       console.log("User already exists.");
       return res.redirect("/signup");
     }
@@ -97,6 +110,12 @@ exports.postSignup = (req, res, next) => {
       .then((result) => {
         console.log("User saved successfully:", result);
         res.redirect("/login");
+         return transporter.sendMail({
+          to: email,
+          from: process.env.SENDGRID_SENDER_EMAIL,
+          subject: "Signup succeeded!",
+          html: "<h1>You successfully signed up!</h1>",
+        });
       })
       .catch((err) => {
         console.log("Error saving user:", err);
