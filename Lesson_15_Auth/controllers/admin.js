@@ -76,7 +76,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.find()
+  Product.find({userId: req.user._id})//filter for products where userId is equal to the logged in user
     // .select('title price -_id')
     // .populate('userId', 'name')
     .then((products) => {
